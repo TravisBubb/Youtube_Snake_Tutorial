@@ -1,5 +1,6 @@
 import pygame
 import snake
+import food
 
 # Initializes the pygame environment
 pygame.init()
@@ -12,11 +13,13 @@ clock = pygame.time.Clock()
 
 player = snake.Snake(250, 250)
 
+snack = food.Food(WIN)
+
 def main():
 	# Game Loop
 	run = True
 	while run:
-		clock.tick(60)
+		clock.tick(12)
 
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -58,6 +61,8 @@ def redraw_window():
 	WIN.fill((0, 0, 0))
 
 	player.draw(WIN)
+
+	snack.draw(WIN)
 
 	pygame.display.update()
 
