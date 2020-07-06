@@ -43,4 +43,13 @@ class Snake(object):
 
 
 	def add_length(self):
-		pass
+		new_x, new_y = self.coords[-1][0], self.coords[-1][1]
+		if self.right:
+			new_x -= self.width
+		elif self.left:
+			new_x += self.width
+		elif self.up:
+			new_y += self.height
+		elif self.down:
+			new_y -= self.height
+		self.coords.append((new_x, new_y))
