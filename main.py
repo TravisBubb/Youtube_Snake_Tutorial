@@ -1,6 +1,7 @@
 import pygame
 import snake
 import food
+import menu
 
 # Initializes the pygame environment
 pygame.init()
@@ -11,11 +12,26 @@ pygame.display.set_caption('Snake')
 
 clock = pygame.time.Clock()
 
+score_font = pygame.font.SysFont('comicsans', 40)
+
 player = snake.Snake(250, 250)
 
 snack = food.Food(WIN)
 
 def main():
+	# Waiting Screen Loop
+	run = True
+	while run:
+		clock.tick(60)
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				run = False
+			if event.type == pygame.QUIT:
+				run = False
+
+		draw_waiting_screen()
+
+	score = 0
 	# Game Loop
 	run = True
 	while run:
@@ -94,8 +110,8 @@ def main():
 				player.add_length()
 				snack.eaten = True
 
-		# Implement score counting
-		# if hit:
+		if hit:
+			score += 1
 
 		keys = pygame.key.get_pressed()
 
@@ -124,18 +140,27 @@ def main():
 			player.left = False
 			player.right = True
 
-		redraw_window()
+		redraw_window(score)
 
 	pygame.quit()
 
 
-def redraw_window():
+def redraw_window(score):
 	WIN.fill((0, 0, 0))
+
+	text = score_font.render('Score: ' + str(score), 1, (255,255,255))
+	WIN.blit(text, (S_WIDTH-text.get_width()-10, 10))
 
 	player.draw(WIN)
 
 	snack.draw(WIN)
 
+	pygame.display.update()
+
+def draw_waiting_screen():
+	WIN.fill((0,0,0))
+	m = menu.Menu()
+	m.draw(WIN)
 	pygame.display.update()
 
 if __name__ == '__main__':
